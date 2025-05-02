@@ -19,8 +19,8 @@ data "google_project" "prov_seed_project" {
 resource "google_project" "cx_projects" {
   for_each = var.provider_managed_projects
 
-  project_id           = "bqprovpr-0819c0-cx-${each.key}"
-  name                 = "bqprovpr-0819c0-cx-${each.key}"
+  project_id           = "bqprovpr-${var.name_suffix}-cx-${each.key}"
+  name                 = "bqprovpr-${var.name_suffix}-cx-${each.key}"
   folder_id            = data.terraform_remote_state.provider-org-create-projects-bootstrap.outputs.folder_id_cx
   billing_account      = var.cx_billing_account_id
   deletion_policy      = "DELETE"
@@ -38,7 +38,7 @@ module "project-services-cx" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
   version = "~> 18.0"
 
-  project_id                  = "bqprovpr-0819c0-cx-${each.key}"
+  project_id                  = "bqprovpr-${var.name_suffix}-cx-${each.key}"
   activate_apis               = var.projects_activate_apis_cx
   disable_services_on_destroy = false
 }

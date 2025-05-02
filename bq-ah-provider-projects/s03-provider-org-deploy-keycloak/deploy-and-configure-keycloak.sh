@@ -37,12 +37,12 @@ done
 
 echo "Getting keycloak admin access token ..."
 curl \
-  -d "username=$KEYCLOAK_ADMIN_USER" \
-  -d "password=$KEYCLOAK_ADMIN_PW" \
+ --data-urlencode "username=admin" \
+ --data-urlencode "password=5BquU9?A5vsJu&d+" \
   -d "client_id=admin-cli" \
   -d "client_secret=admin-cli" \
   -d "grant_type=password" \
-  "https://$KEYCLOAK_DNS_NAME/realms/master/protocol/openid-connect/token" 2>/dev/null > ../temp/admin-token.json
+  "https://keycloak.pgtest.site/realms/master/protocol/openid-connect/token" 2>/dev/null > ../temp/admin-token.json
 
 TOKEN=$(cat ../temp/admin-token.json | jq -r .access_token)
 

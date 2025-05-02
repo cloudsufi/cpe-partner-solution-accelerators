@@ -267,3 +267,7 @@ variable "provider_managed_projects" {
   type        = any
   default     = {}
 }
+variable "base_dns_name" {
+  type        = string
+  description = "Base DNS domain name (e.g., pgtest.site)"
+}

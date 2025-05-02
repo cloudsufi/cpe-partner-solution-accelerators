@@ -17,7 +17,7 @@ locals {
     for user_name, user in var.provider_managed_projects : [
       for role in toset( ["roles/editor", "roles/resourcemanager.projectIamAdmin"] ) : [
         for member in toset( var.prov_project_owners ) : {
-          project = "bqprovpr-0819c0-cx-${user_name}"
+          project = "bqprovpr-${var.name_suffix}-cx-${user_name}"
           role    = role
           member  = member
         }
@@ -30,7 +30,7 @@ locals {
   project_role_combination_list_wfif_users = distinct(flatten([
     for user_name, user in var.provider_managed_projects : [
       for role in toset( ["roles/bigquery.dataViewer", "roles/bigquery.jobUser"] ) : {
-        project = "bqprovpr-0819c0-cx-${user_name}"
+        project = "bqprovpr-${var.name_suffix}-cx-${user_name}"
         role    = role
         member  = "${local.wfif_iam_principal}${local.keycloak_users[user_name]}"
       }
@@ -41,7 +41,7 @@ locals {
     for user_name, user in var.provider_managed_projects : [
       for external_identity in toset(user.external_identities) : [
         for role in toset( ["roles/bigquery.dataViewer", "roles/bigquery.jobUser"] ) : {
-          project = "bqprovpr-0819c0-cx-${user_name}"
+          project = "bqprovpr-${var.name_suffix}-cx-${user_name}"
           role    = role
           member  = "user:${external_identity}"
         }

@@ -13,21 +13,6 @@
 # limitations under the License.
 
 # Override Domain restricted sharing
-resource "google_org_policy_policy" "override_drs" {
-  parent = "organizations/${var.prov_org_id}"
-  name   = "organizations/${var.prov_org_id}/policies/iam.allowedPolicyMemberDomains"
-
-  spec {
-    inherit_from_parent = false
-
-    rules {
-      values {
-        allowed_values = var.drs_allowed_domains
-        denied_values = []
-      }
-    }
-  }
-}
 
 # Override Allowed external Identity Providers for workloads in Cloud IAM
 resource "google_org_policy_policy" "override_wipool" {
@@ -40,7 +25,7 @@ resource "google_org_policy_policy" "override_wipool" {
     rules {
       values {
         allowed_values = [
-            "https://keycloak.${local.dns_domain_name_trimmed}/realms/google"
+            "https://keycloak.pgtest.site/realms/google"
           ]
       }
     }

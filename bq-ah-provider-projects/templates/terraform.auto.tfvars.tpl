@@ -68,3 +68,5 @@ prov_vpc_sc_access_level_corp_allowed_identities = [
     "user:{{GCLOUD_USER}}",
     "user:{{PROV_ADMIN_USER}}",
     ]
+
+base_dns_name = "{{BASE_DNS_NAME}}"
