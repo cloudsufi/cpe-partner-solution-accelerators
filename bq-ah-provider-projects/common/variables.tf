@@ -26,11 +26,11 @@ variable "gke_subnet_cidr" {
 }
 variable "gke_clusters" {
   description = "GKE clusters to create"
-  type = map(any)
+  type        = map(any)
   default = {
     cl-shared-apps = {
-      cp_range = "172.16.0.0/28"
-      pod_range = "10.11.0.0/16"
+      cp_range      = "172.16.0.0/28"
+      pod_range     = "10.11.0.0/16"
       service_range = "10.12.0.0/16"
     }
   }
@@ -57,16 +57,16 @@ variable "nat_bgp_asn" {
 }
 variable "pga_domains" {
   description = "Private Google Access domain overrides"
-  type        = map
-  default     =  {
-    "googleapis"  = "googleapis.com."
-    "gcr" = "gcr.io."
+  type        = map(any)
+  default = {
+    "googleapis" = "googleapis.com."
+    "gcr"        = "gcr.io."
   }
 }
 variable "projects_activate_apis" {
   description = "Google Cloud Project ID"
-  type        = list
-  default     = [
+  type        = list(any)
+  default = [
     "compute.googleapis.com",
     "iam.googleapis.com",
     "cloudresourcemanager.googleapis.com",
@@ -83,8 +83,8 @@ variable "projects_activate_apis" {
 }
 variable "projects_activate_apis_seed" {
   description = "Google Cloud Project ID"
-  type        = list
-  default     = [
+  type        = list(any)
+  default = [
     "iam.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "accesscontextmanager.googleapis.com",
@@ -97,8 +97,8 @@ variable "projects_activate_apis_seed" {
 }
 variable "projects_activate_apis_cx" {
   description = "Google Cloud Project ID"
-  type        = list
-  default     = [
+  type        = list(any)
+  default = [
     "iam.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "bigquery.googleapis.com",
@@ -107,8 +107,8 @@ variable "projects_activate_apis_cx" {
 }
 variable "org_admins_wide_iam_roles" {
   description = "IAM roles to grant on the Cloud Organization for admins"
-  type        = list
-  default     = [
+  type        = list(any)
+  default = [
     "roles/owner",
     "roles/resourcemanager.projectIamAdmin",
     "roles/browser",
@@ -203,7 +203,7 @@ variable "prov_vpc_sc_dry_run" {
 }
 variable "prov_vpc_sc_restricted_services" {
   description = "VPC SC restricted services"
-  type        = list
+  type        = list(any)
   default     = []
 }
 variable "prov_project_id_prefix" {
@@ -232,7 +232,7 @@ variable "prov_admin_user" {
 }
 variable "prov_project_owners" {
   description = "Additional IAM members to add to the provider projects"
-  type        = list
+  type        = list(any)
 }
 variable "prov_vpc_sc_policy_parent_org_id" {
   description = "VPC SC policy parent organization id"
@@ -244,22 +244,22 @@ variable "prov_vpc_sc_global_access_policy_name" {
 }
 variable "prov_vpc_sc_access_level_corp_ip_subnetworks" {
   description = "VPC SC access level allowed external IPs"
-  type        = list
+  type        = list(any)
   default     = []
 }
 variable "prov_vpc_sc_ah_customer_project_resources_with_numbers" {
   description = "VPC SC / AH allowed subscriber project numbers - format list of 'projects/project_number' items"
-  type        = list
+  type        = list(any)
   default     = []
 }
 variable "prov_vpc_sc_access_level_corp_allowed_identities" {
   description = "VPC SC access level allowed identities"
-  type        = list
+  type        = list(any)
   default     = []
 }
 variable "prov_vpc_sc_ah_customer_identities" {
   description = "VPC SC / AH allowed subscriber identities - format: list of 'user:<email>' or 'serviceAccount:<email>' items"
-  type        = list
+  type        = list(any)
   default     = []
 }
 variable "provider_managed_projects" {

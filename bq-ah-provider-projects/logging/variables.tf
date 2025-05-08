@@ -5,7 +5,7 @@ variable "central_logging_project_id" {
 
 variable "billing_account_id" {
   description = "Billing account ID"
-  default = "01862A-CCBDDA-E513DC"
+  default     = "01862A-CCBDDA-E513DC"
 }
 
 variable "region" {
@@ -20,5 +20,20 @@ variable "region" {
 
 variable "folder_id_root" {
   description = "Folder id of the root project"
-  default = "24112046497"
+  default     = "24112046497"
+}
+
+variable "provider_managed_projects" {
+  description = "Map of provider managed projects"
+  type = map(object({
+    project_id = string
+  }))
+  default = {
+    janes = {
+      project_id = "bqprovpr-0819c0-cx-janes"
+    }
+    johns = {
+      project_id = "bqprovpr-0819c0-cx-johns"
+    }
+  }
 }

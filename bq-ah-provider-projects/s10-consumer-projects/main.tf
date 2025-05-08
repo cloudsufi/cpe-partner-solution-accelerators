@@ -19,14 +19,14 @@ data "google_project" "prov_seed_project" {
 resource "google_project" "cx_projects" {
   for_each = var.provider_managed_projects
 
-  project_id           = "bqprovpr-0819c0-cx-${each.key}"
-  name                 = "bqprovpr-0819c0-cx-${each.key}"
-  folder_id            = data.terraform_remote_state.provider-org-create-projects-bootstrap.outputs.folder_id_cx
-  billing_account      = var.cx_billing_account_id
-  deletion_policy      = "DELETE"
+  project_id      = "bqprovpr-0819c0-cx-${each.key}"
+  name            = "bqprovpr-0819c0-cx-${each.key}"
+  folder_id       = data.terraform_remote_state.provider-org-create-projects-bootstrap.outputs.folder_id_cx
+  billing_account = var.cx_billing_account_id
+  deletion_policy = "DELETE"
 
   labels = {
-    customer_name = each.key,
+    customer_name        = each.key,
     customer_keycloak_id = local.keycloak_users[each.key],
   }
 
@@ -45,7 +45,7 @@ module "project-services-cx" {
 
 locals {
   wloadif_iam_principal = data.terraform_remote_state.provider-wlif-wfif.outputs.wloadif_iam_principal
-  wfif_iam_principal = data.terraform_remote_state.provider-wlif-wfif.outputs.wfif_iam_principal
-  keycloak_users = data.terraform_remote_state.keycloak.outputs.managed_users
-  bqds_exchange_id = data.terraform_remote_state.provider-bq-ds-data-sharing.outputs.bqds_exchange_data_exchange_id
+  wfif_iam_principal    = data.terraform_remote_state.provider-wlif-wfif.outputs.wfif_iam_principal
+  keycloak_users        = data.terraform_remote_state.keycloak.outputs.managed_users
+  bqds_exchange_id      = data.terraform_remote_state.provider-bq-ds-data-sharing.outputs.bqds_exchange_data_exchange_id
 }
