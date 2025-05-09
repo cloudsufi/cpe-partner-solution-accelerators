@@ -37,3 +37,20 @@ variable "provider_managed_projects" {
     }
   }
 }
+
+variable "folder_id_cx" {
+  description = "Folder ID of customer projects"
+  default     = "56100916370"
+}
+
+variable "bq_dataset_writer_role" {
+  description = "IAM role to allow log sink to write to the BigQuery dataset"
+  type        = string
+  default     = "roles/bigquery.dataEditor"
+}
+
+variable "bq_job_user_role" {
+  description = "IAM role to allow logging service account to run BigQuery jobs"
+  type        = string
+  default     = "roles/bigquery.jobUser"
+}
