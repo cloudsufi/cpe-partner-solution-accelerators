@@ -13,7 +13,7 @@
 # limitations under the License.
 
 resource "google_bigquery_analytics_hub_listing_subscription" "subscription" {
-  for_each         = var.provider_managed_projects
+  for_each = var.provider_managed_projects
 
   location         = var.location
   data_exchange_id = local.bqds_exchange_id
@@ -22,7 +22,7 @@ resource "google_bigquery_analytics_hub_listing_subscription" "subscription" {
 
   destination_dataset {
     description = "cx_${var.name_suffix}_linked_ds_${each.key}"
-    location = var.location
+    location    = var.location
     dataset_reference {
       dataset_id = "cx_${var.name_suffix}_linked_ds_${each.key}"
       project_id = module.project-services-cx[each.key].project_id

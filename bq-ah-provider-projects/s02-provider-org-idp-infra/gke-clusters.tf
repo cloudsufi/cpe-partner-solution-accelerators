@@ -15,27 +15,27 @@
 resource "google_container_cluster" "lab" {
   for_each = var.gke_clusters
 
-  project  = data.google_project.project.project_id
-  name     = "${each.key}-${random_string.suffix.result}"
-  location = var.zone
+  project                  = data.google_project.project.project_id
+  name                     = "${each.key}-${random_string.suffix.result}"
+  location                 = var.zone
   remove_default_node_pool = false
   initial_node_count       = 3
-  networking_mode = "VPC_NATIVE"
+  networking_mode          = "VPC_NATIVE"
 
-  network                 = google_compute_network.vpc_network.id
-  subnetwork              = google_compute_subnetwork.gke_subnet.id
+  network    = google_compute_network.vpc_network.id
+  subnetwork = google_compute_subnetwork.gke_subnet.id
 
   private_cluster_config {
-    enable_private_nodes = true
+    enable_private_nodes    = true
     enable_private_endpoint = false
-    master_ipv4_cidr_block = each.value.cp_range
+    master_ipv4_cidr_block  = each.value.cp_range
     master_global_access_config {
-        enabled = true
+      enabled = true
     }
   }
 
   ip_allocation_policy {
-    cluster_secondary_range_name = "${each.key}-pods"
+    cluster_secondary_range_name  = "${each.key}-pods"
     services_secondary_range_name = "${each.key}-services"
   }
 
@@ -59,7 +59,7 @@ resource "google_container_cluster" "lab" {
     dynamic "cidr_blocks" {
       for_each = toset(var.allowlisted_external_ip_ranges_v4only)
       content {
-        cidr_block = cidr_blocks.value
+        cidr_block   = cidr_blocks.value
         display_name = "External Allowlisted"
       }
     }

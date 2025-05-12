@@ -15,11 +15,11 @@
 resource "local_file" "test_users_password" {
   for_each = local.templates
 
-  content  = <<EOT
-%{ for user_name,user in var.provider_managed_projects ~}
+  content         = <<EOT
+%{for user_name, user in var.provider_managed_projects~}
 ${user_name}=${random_password.cx_managed_pw[user_name].result}
-%{ endfor ~}
+%{endfor~}
 EOT
-  filename = "${path.module}/../generated/test_users_password.txt"
+  filename        = "${path.module}/../generated/test_users_password.txt"
   file_permission = 0600
 }

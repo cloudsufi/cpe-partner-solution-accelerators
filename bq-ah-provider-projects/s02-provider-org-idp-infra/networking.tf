@@ -18,18 +18,18 @@ resource "google_compute_network" "vpc_network" {
 }
 
 resource "google_compute_subnetwork" "vpc_subnet" {
-  name          = "vpc-subnetwork-${random_string.suffix.result}"
-  region        = var.region
-  network       = google_compute_network.vpc_network.id
+  name                     = "vpc-subnetwork-${random_string.suffix.result}"
+  region                   = var.region
+  network                  = google_compute_network.vpc_network.id
   private_ip_google_access = true
 
   ip_cidr_range = var.subnet_cidr
 }
 
 resource "google_compute_subnetwork" "gke_subnet" {
-  name          = "vpc-subnetwork-gke-${random_string.suffix.result}"
-  region        = var.region
-  network       = google_compute_network.vpc_network.id
+  name                     = "vpc-subnetwork-gke-${random_string.suffix.result}"
+  region                   = var.region
+  network                  = google_compute_network.vpc_network.id
   private_ip_google_access = true
 
   ip_cidr_range = var.gke_subnet_cidr
@@ -38,7 +38,7 @@ resource "google_compute_subnetwork" "gke_subnet" {
     for_each = var.gke_clusters
     content {
       range_name    = "${secondary_ip_range.key}-pods"
-      ip_cidr_range = "${secondary_ip_range.value.pod_range}"
+      ip_cidr_range = secondary_ip_range.value.pod_range
     }
   }
 
@@ -46,7 +46,7 @@ resource "google_compute_subnetwork" "gke_subnet" {
     for_each = var.gke_clusters
     content {
       range_name    = "${secondary_ip_range.key}-services"
-      ip_cidr_range = "${secondary_ip_range.value.service_range}"
+      ip_cidr_range = secondary_ip_range.value.service_range
     }
   }
 }
@@ -61,12 +61,12 @@ resource "google_compute_router" "nat_router" {
 }
 
 resource "google_compute_address" "nat_external_address" {
-  name    = "address-nat-${var.region}-${random_string.suffix.result}"
-  region  = var.region
+  name   = "address-nat-${var.region}-${random_string.suffix.result}"
+  region = var.region
 }
 
 resource "google_compute_router_nat" "nat_egress" {
-  name                               = "nat-egress-${var.region}-${random_string.suffix.result}"
+  name = "nat-egress-${var.region}-${random_string.suffix.result}"
 
   router                             = google_compute_router.nat_router.name
   region                             = var.region

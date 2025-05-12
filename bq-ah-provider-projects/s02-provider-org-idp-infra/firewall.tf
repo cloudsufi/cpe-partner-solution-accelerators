@@ -13,16 +13,16 @@
 # limitations under the License.
 
 resource "google_compute_firewall" "allow-google-lb-hc" {
-  name          = "allow-google-lb-hc-${random_string.suffix.result}"
+  name = "allow-google-lb-hc-${random_string.suffix.result}"
 
   allow {
     ports    = ["22", "80", "443", "8080", "8443"]
     protocol = "tcp"
   }
-  direction     = "INGRESS"
-  description   = "Allow Google LB and HC ranges"
-  network       = google_compute_network.vpc_network.id
-  priority      = 1000
+  direction   = "INGRESS"
+  description = "Allow Google LB and HC ranges"
+  network     = google_compute_network.vpc_network.id
+  priority    = 1000
   source_ranges = [
     "130.211.0.0/22",
     "35.191.0.0/16",
@@ -33,31 +33,31 @@ resource "google_compute_firewall" "allow-google-lb-hc" {
 }
 
 resource "google_compute_firewall" "allow-google-iap" {
-  name          = "allow-google-iap-${random_string.suffix.result}"
+  name = "allow-google-iap-${random_string.suffix.result}"
 
   allow {
     ports    = ["22", "80", "443", "8080", "8443"]
     protocol = "tcp"
   }
-  direction     = "INGRESS"
-  description   = "Allow Google IAP range"
-  network       = google_compute_network.vpc_network.id
-  priority      = 1000
+  direction   = "INGRESS"
+  description = "Allow Google IAP range"
+  network     = google_compute_network.vpc_network.id
+  priority    = 1000
   source_ranges = [
     "35.235.240.0/20"
   ]
 }
 
 resource "google_compute_firewall" "allow-internal" {
-  name          = "allow-internal-${random_string.suffix.result}"
+  name = "allow-internal-${random_string.suffix.result}"
 
   allow {
     protocol = "all"
   }
-  direction     = "INGRESS"
-  description   = "Allow rfc1918 ranges"
-  network       = google_compute_network.vpc_network.id
-  priority      = 1000
+  direction   = "INGRESS"
+  description = "Allow rfc1918 ranges"
+  network     = google_compute_network.vpc_network.id
+  priority    = 1000
   source_ranges = [
     "10.0.0.0/8",
     "172.16.0.0/12",
@@ -66,16 +66,16 @@ resource "google_compute_firewall" "allow-internal" {
 }
 
 resource "google_compute_firewall" "allow-external-http" {
-  name          = "allow-external-http-${random_string.suffix.result}"
+  name = "allow-external-http-${random_string.suffix.result}"
 
   allow {
     protocol = "tcp"
     ports    = ["80", "443", "8080", "8081", "8443"]
   }
-  direction     = "INGRESS"
-  description   = "Allow all IP ranges to common HTTP/S ports"
-  network       = google_compute_network.vpc_network.id
-  priority      = 1000
+  direction   = "INGRESS"
+  description = "Allow all IP ranges to common HTTP/S ports"
+  network     = google_compute_network.vpc_network.id
+  priority    = 1000
   source_ranges = [
     "0.0.0.0/0",
   ]

@@ -25,7 +25,7 @@ resource "google_compute_instance" "jumphost_vm" {
 
   boot_disk {
     auto_delete = true
- 
+
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2004-lts"
       size  = 50
@@ -37,10 +37,10 @@ resource "google_compute_instance" "jumphost_vm" {
   machine_type   = "e2-medium"
 
   network_interface {
-    network            = google_compute_network.vpc_network.id
-    subnetwork         = google_compute_subnetwork.vpc_subnet.id
-    stack_type         = "IPV4_ONLY"
-    network_ip         = google_compute_address.jumphost_ip.address
+    network    = google_compute_network.vpc_network.id
+    subnetwork = google_compute_subnetwork.vpc_subnet.id
+    stack_type = "IPV4_ONLY"
+    network_ip = google_compute_address.jumphost_ip.address
   }
 
   service_account {

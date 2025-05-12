@@ -15,10 +15,10 @@
 output "wloadif_iam_principal" {
   description = "Workload Identity Federation Client ID"
   value       = "principal://iam.googleapis.com/projects/${local.project_number_idp}/locations/global/workloadIdentityPools/${var.wlwfif_pool_name}/subject/"
-  sensitive = false
+  sensitive   = false
 }
 output "wfif_iam_principal" {
   description = "Workforce Identity Federation Client ID"
   value       = "principal://iam.googleapis.com/locations/global/workforcePools/${var.wlwfif_pool_name}/subject/"
-  sensitive = false
+  sensitive   = false
 }

@@ -14,7 +14,7 @@
 
 variable "drs_allowed_domains" {
   description = "Google Cloud Domain Restricted sharing domains"
-  type        = list
-  default     = [
+  type        = list(any)
+  default = [
   ]
 }

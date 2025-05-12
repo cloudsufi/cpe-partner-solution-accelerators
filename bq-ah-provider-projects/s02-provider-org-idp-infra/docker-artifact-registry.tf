@@ -20,8 +20,8 @@ resource "google_artifact_registry_repository" "my-repo" {
 }
 
 resource "google_artifact_registry_repository_iam_member" "member" {
-  location = var.region
+  location   = var.region
   repository = google_artifact_registry_repository.my-repo.name
-  role = "roles/artifactregistry.reader"
-  member = "serviceAccount:${google_service_account.gke_node_sa.email}"
+  role       = "roles/artifactregistry.reader"
+  member     = "serviceAccount:${google_service_account.gke_node_sa.email}"
 }

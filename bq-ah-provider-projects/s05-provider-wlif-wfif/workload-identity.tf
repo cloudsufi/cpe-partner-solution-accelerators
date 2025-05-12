@@ -13,22 +13,22 @@
 # limitations under the License.
 
 resource "google_iam_workload_identity_pool" "keycloak" {
-  workload_identity_pool_id = "${var.wlwfif_pool_name}"
-  display_name              = "${var.wlwfif_pool_name}"
-  description               = "${var.wlwfif_pool_name}"
+  workload_identity_pool_id = var.wlwfif_pool_name
+  display_name              = var.wlwfif_pool_name
+  description               = var.wlwfif_pool_name
   disabled                  = false
 }
 
 resource "google_iam_workload_identity_pool_provider" "keycloak" {
   workload_identity_pool_id          = google_iam_workload_identity_pool.keycloak.workload_identity_pool_id
   workload_identity_pool_provider_id = var.wlwfif_provider_name
-  display_name = var.wlwfif_provider_name
-  attribute_mapping                  = {
+  display_name                       = var.wlwfif_provider_name
+  attribute_mapping = {
     "google.subject" = "assertion.sub",
-    "attribute.aud" = "assertion.aud"
+    "attribute.aud"  = "assertion.aud"
   }
   oidc {
-    issuer_uri        = "https://keycloak.${local.dns_name_trimmed}/realms/google"
+    issuer_uri = "https://keycloak.${local.dns_name_trimmed}/realms/google"
     allowed_audiences = [
       "//iam.googleapis.com/projects/${data.google_project.project.number}/locations/global/workloadIdentityPools/${var.wlwfif_pool_name}/providers/${var.wlwfif_provider_name}",
       "google-wloadif-client",

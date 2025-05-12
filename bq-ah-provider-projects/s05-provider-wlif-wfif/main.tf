@@ -17,8 +17,8 @@ data "google_project" "project" {
 }
 
 locals {
-  dns_name_trimmed = trimsuffix(var.dns_domain_name, ".")
-  random_suffix = data.terraform_remote_state.provider-org-idp-infra.outputs.random_suffix
-  project_id_idp = data.google_project.project.project_id
+  dns_name_trimmed   = trimsuffix(var.dns_domain_name, ".")
+  random_suffix      = data.terraform_remote_state.provider-org-idp-infra.outputs.random_suffix
+  project_id_idp     = data.google_project.project.project_id
   project_number_idp = data.google_project.project.number
 }

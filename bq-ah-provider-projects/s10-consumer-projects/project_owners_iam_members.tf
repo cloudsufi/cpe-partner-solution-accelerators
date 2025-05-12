@@ -15,8 +15,8 @@
 locals {
   project_role_combination_list_owners = distinct(flatten([
     for user_name, user in var.provider_managed_projects : [
-      for role in toset( ["roles/editor", "roles/resourcemanager.projectIamAdmin"] ) : [
-        for member in toset( var.prov_project_owners ) : {
+      for role in toset(["roles/editor", "roles/resourcemanager.projectIamAdmin"]) : [
+        for member in toset(var.prov_project_owners) : {
           project = "bqprovpr-0819c0-cx-${user_name}"
           role    = role
           member  = member
@@ -29,7 +29,7 @@ locals {
 locals {
   project_role_combination_list_wfif_users = distinct(flatten([
     for user_name, user in var.provider_managed_projects : [
-      for role in toset( ["roles/bigquery.dataViewer", "roles/bigquery.jobUser"] ) : {
+      for role in toset(["roles/bigquery.dataViewer", "roles/bigquery.jobUser"]) : {
         project = "bqprovpr-0819c0-cx-${user_name}"
         role    = role
         member  = "${local.wfif_iam_principal}${local.keycloak_users[user_name]}"
@@ -40,7 +40,7 @@ locals {
   project_role_combination_list_external_users = distinct(flatten([
     for user_name, user in var.provider_managed_projects : [
       for external_identity in toset(user.external_identities) : [
-        for role in toset( ["roles/bigquery.dataViewer", "roles/bigquery.jobUser"] ) : {
+        for role in toset(["roles/bigquery.dataViewer", "roles/bigquery.jobUser"]) : {
           project = "bqprovpr-0819c0-cx-${user_name}"
           role    = role
           member  = "user:${external_identity}"
@@ -52,28 +52,28 @@ locals {
 }
 
 resource "google_project_iam_member" "project_owner" {
-  for_each         = { for entry in local.project_role_combination_list_owners: "${entry.project}.${entry.role}.${entry.member}" => entry }
-  depends_on       = [ module.project-services-cx ]
+  for_each   = { for entry in local.project_role_combination_list_owners : "${entry.project}.${entry.role}.${entry.member}" => entry }
+  depends_on = [module.project-services-cx]
 
-  project          = each.value.project
-  role             = each.value.role
-  member           = each.value.member
+  project = each.value.project
+  role    = each.value.role
+  member  = each.value.member
 }
 
 resource "google_project_iam_member" "project_user" {
-  for_each         = { for entry in local.project_role_combination_list_wfif_users: "${entry.project}.${entry.role}.${entry.member}" => entry }
-  depends_on       = [ module.project-services-cx ]
+  for_each   = { for entry in local.project_role_combination_list_wfif_users : "${entry.project}.${entry.role}.${entry.member}" => entry }
+  depends_on = [module.project-services-cx]
 
-  project          = each.value.project
-  role             = each.value.role
-  member           = each.value.member
+  project = each.value.project
+  role    = each.value.role
+  member  = each.value.member
 }
 
 resource "google_project_iam_member" "project_external_user" {
-  for_each         = { for entry in local.project_role_combination_list_external_users: "${entry.project}.${entry.role}.${entry.member}" => entry }
-  depends_on       = [ module.project-services-cx ]
+  for_each   = { for entry in local.project_role_combination_list_external_users : "${entry.project}.${entry.role}.${entry.member}" => entry }
+  depends_on = [module.project-services-cx]
 
-  project          = each.value.project
-  role             = each.value.role
-  member           = each.value.member
+  project = each.value.project
+  role    = each.value.role
+  member  = each.value.member
 }

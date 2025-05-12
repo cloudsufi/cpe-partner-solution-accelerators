@@ -13,8 +13,8 @@
 # limitations under the License.
 
 resource "google_bigquery_analytics_hub_data_exchange" "prov_exchange" {
-  project          = data.google_project.project.project_id
-  location         = var.location
+  project  = data.google_project.project.project_id
+  location = var.location
 
   data_exchange_id = "prov_${var.name_suffix}_cx_exchange"
   display_name     = "prov_${var.name_suffix}_cx_exchange"
@@ -22,17 +22,17 @@ resource "google_bigquery_analytics_hub_data_exchange" "prov_exchange" {
 }
 
 resource "google_bigquery_analytics_hub_listing" "cx_listing" {
-  project          = data.google_project.project.project_id
-  for_each         = var.provider_managed_projects
+  project  = data.google_project.project.project_id
+  for_each = var.provider_managed_projects
 
   location         = var.location
   data_exchange_id = google_bigquery_analytics_hub_data_exchange.prov_exchange.data_exchange_id
 
-  listing_id       = "cx_${var.name_suffix}_listing_${each.key}"
-  display_name     = "cx_${var.name_suffix}_listing_${each.key}"
-  description      = "cx_${var.name_suffix}_listing_${each.key}"
+  listing_id   = "cx_${var.name_suffix}_listing_${each.key}"
+  display_name = "cx_${var.name_suffix}_listing_${each.key}"
+  description  = "cx_${var.name_suffix}_listing_${each.key}"
 
-  request_access   = var.prov_admin_user
+  request_access = var.prov_admin_user
 
   bigquery_dataset {
     dataset = google_bigquery_dataset.shared_cx_dataset[each.key].id

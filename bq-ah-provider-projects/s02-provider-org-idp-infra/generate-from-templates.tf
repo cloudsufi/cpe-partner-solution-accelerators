@@ -15,7 +15,7 @@
 locals {
   templates = {
     "environment.sh" = "environment.sh.tpl",
-    "keycloak.yml" = "keycloak.yml.tpl",
+    "keycloak.yml"   = "keycloak.yml.tpl",
   }
 }
 
@@ -28,23 +28,23 @@ resource "random_password" "keycloak_admin_pw" {
 resource "local_file" "generated" {
   for_each = local.templates
 
-  content  = templatefile("${path.module}/../templates/${each.value}",
+  content = templatefile("${path.module}/../templates/${each.value}",
     {
-      project_id = data.google_project.project.project_id,
-      generated_path = "${abspath(path.module)}/../generated",
-      db_instance = "${google_sql_database_instance.keycloak.connection_name}",
-      db_ip = "${google_sql_database_instance.keycloak.private_ip_address}",
-      db_username = trimsuffix(google_service_account.keycloak_sa.email, ".gserviceaccount.com")
-      keycloak_admin_pw = "${random_password.keycloak_admin_pw.result}",
-      keycloak_google_sa = "${google_service_account.keycloak_sa.email}",
-      keycloak_image_name = docker_registry_image.keycloak.name,
-      dns_name = trimsuffix(var.dns_domain_name, "."),
-      gateway_address_ip = google_compute_global_address.gateway.address,
+      project_id           = data.google_project.project.project_id,
+      generated_path       = "${abspath(path.module)}/../generated",
+      db_instance          = "${google_sql_database_instance.keycloak.connection_name}",
+      db_ip                = "${google_sql_database_instance.keycloak.private_ip_address}",
+      db_username          = trimsuffix(google_service_account.keycloak_sa.email, ".gserviceaccount.com")
+      keycloak_admin_pw    = "${random_password.keycloak_admin_pw.result}",
+      keycloak_google_sa   = "${google_service_account.keycloak_sa.email}",
+      keycloak_image_name  = docker_registry_image.keycloak.name,
+      dns_name             = trimsuffix(var.dns_domain_name, "."),
+      gateway_address_ip   = google_compute_global_address.gateway.address,
       gateway_address_name = google_compute_global_address.gateway.name,
-      gke_cluster_name = google_container_cluster.lab["cl-shared-apps"].name
+      gke_cluster_name     = google_container_cluster.lab["cl-shared-apps"].name
       gke_cluster_location = google_container_cluster.lab["cl-shared-apps"].location
     }
   )
-  filename = "${path.module}/../generated/${each.key}"
+  filename        = "${path.module}/../generated/${each.key}"
   file_permission = 0644
 }

@@ -15,24 +15,24 @@
 terraform {
   required_providers {
     google-beta = {
-      source = "hashicorp/google-beta"
+      source  = "hashicorp/google-beta"
       version = "~> 6.28.0"
     }
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
       version = "~> 6.28.0"
     }
   }
 }
 
 provider "google-beta" {
-  project     = var.prov_project_id_idp
-  region      = var.region
-  zone        = var.zone
+  project = var.prov_project_id_idp
+  region  = var.region
+  zone    = var.zone
 }
 
 provider "google" {
-  project     = var.prov_project_id_idp
-  region      = var.region
-  zone        = var.zone
+  project = var.prov_project_id_idp
+  region  = var.region
+  zone    = var.zone
 }

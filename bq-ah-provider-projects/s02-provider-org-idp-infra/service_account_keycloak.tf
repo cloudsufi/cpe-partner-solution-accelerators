@@ -19,20 +19,20 @@ resource "google_service_account" "keycloak_sa" {
 
 resource "google_project_iam_member" "keycloak_sa_cloudsql_client" {
   project = data.google_project.project.project_id
-  role = "roles/cloudsql.client"
-  member = "serviceAccount:${google_service_account.keycloak_sa.email}"
+  role    = "roles/cloudsql.client"
+  member  = "serviceAccount:${google_service_account.keycloak_sa.email}"
 }
 
 resource "google_project_iam_member" "keycloak_sa_cloudsql_viewer" {
   project = data.google_project.project.project_id
-  role = "roles/cloudsql.viewer"
-  member = "serviceAccount:${google_service_account.keycloak_sa.email}"
+  role    = "roles/cloudsql.viewer"
+  member  = "serviceAccount:${google_service_account.keycloak_sa.email}"
 }
 
 resource "google_project_iam_member" "keycloak_sa_cloudsql_user" {
   project = data.google_project.project.project_id
-  role = "roles/cloudsql.instanceUser"
-  member = "serviceAccount:${google_service_account.keycloak_sa.email}"
+  role    = "roles/cloudsql.instanceUser"
+  member  = "serviceAccount:${google_service_account.keycloak_sa.email}"
 }
 
 resource "google_service_account_iam_member" "keycloak_sa_wi" {

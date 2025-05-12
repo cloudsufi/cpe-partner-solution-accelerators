@@ -36,40 +36,40 @@ resource "keycloak_realm" "realm" {
       strict_transport_security           = "max-age=31536000; includeSubDomains"
     }
     brute_force_detection {
-      permanent_lockout                 = false
-      max_login_failures                = 30
-      wait_increment_seconds            = 60
-      quick_login_check_milli_seconds   = 1000
-      minimum_quick_login_wait_seconds  = 60
-      max_failure_wait_seconds          = 900
-      failure_reset_time_seconds        = 43200
+      permanent_lockout                = false
+      max_login_failures               = 30
+      wait_increment_seconds           = 60
+      quick_login_check_milli_seconds  = 1000
+      minimum_quick_login_wait_seconds = 60
+      max_failure_wait_seconds         = 900
+      failure_reset_time_seconds       = 43200
     }
   }
 }
 
 resource "keycloak_openid_client" "google_wloadif_client" {
-  realm_id            = keycloak_realm.realm.id
-  client_id           = "google-wloadif-client"
-  full_scope_allowed  = false # needed to remove account from aud claim, as aud claim being an array does not work with google identity federation
+  realm_id           = keycloak_realm.realm.id
+  client_id          = "google-wloadif-client"
+  full_scope_allowed = false # needed to remove account from aud claim, as aud claim being an array does not work with google identity federation
 
-  name                = "google-wloadif-client"
-  enabled             = true
+  name    = "google-wloadif-client"
+  enabled = true
 
-  access_type         = "CONFIDENTIAL"
+  access_type = "CONFIDENTIAL"
   valid_redirect_uris = [
     "http://localhost:8080/openid-callback",
   ]
 
-  login_theme = "keycloak"
-  implicit_flow_enabled = true
-  standard_flow_enabled = true
+  login_theme                  = "keycloak"
+  implicit_flow_enabled        = true
+  standard_flow_enabled        = true
   direct_access_grants_enabled = true
-  service_accounts_enabled = true
+  service_accounts_enabled     = true
 }
 
 resource "keycloak_openid_client_scope" "google_wloadif_client_scope" {
-  realm_id = keycloak_realm.realm.id
-  name     = "google-wloadif-client-scope"
+  realm_id    = keycloak_realm.realm.id
+  name        = "google-wloadif-client-scope"
   description = "Google Workload Identity Federation Client Scope for Audience"
 }
 
@@ -96,29 +96,29 @@ resource "keycloak_openid_client_default_scopes" "google_wloadif_client_default_
 }
 
 resource "keycloak_openid_client" "google_wfif_client" {
-  realm_id            = keycloak_realm.realm.id
-  client_id           = "google-wfif-client"
-  full_scope_allowed  = false # needed to remove account from aud claim, as aud claim being an array does not work with google identity federation
+  realm_id           = keycloak_realm.realm.id
+  client_id          = "google-wfif-client"
+  full_scope_allowed = false # needed to remove account from aud claim, as aud claim being an array does not work with google identity federation
 
-  name                = "google-wfif-client"
-  enabled             = true
+  name    = "google-wfif-client"
+  enabled = true
 
-  access_type         = "CONFIDENTIAL"
+  access_type = "CONFIDENTIAL"
   valid_redirect_uris = [
     "http://localhost:8080/openid-callback",
     "https://auth.cloud.google/signin-callback/locations/global/workforcePools/${var.wlwfif_pool_name}/providers/${var.wlwfif_provider_name}"
   ]
 
-  login_theme = "keycloak"
-  implicit_flow_enabled = true
-  standard_flow_enabled = true
+  login_theme                  = "keycloak"
+  implicit_flow_enabled        = true
+  standard_flow_enabled        = true
   direct_access_grants_enabled = true
-  service_accounts_enabled = true
+  service_accounts_enabled     = true
 }
 
 resource "keycloak_openid_client_scope" "google_wfif_client_scope" {
-  realm_id = keycloak_realm.realm.id
-  name     = "google-wfif-client-scope"
+  realm_id    = keycloak_realm.realm.id
+  name        = "google-wfif-client-scope"
   description = "Google Workforce Identity Federation Client Scope for Audience"
 }
 
@@ -137,8 +137,8 @@ resource "keycloak_openid_client_default_scopes" "google_wfif_client_default_sco
 }
 
 resource "random_password" "test_user_pw" {
-  length           = 16
-  special          = false
+  length  = 16
+  special = false
 }
 
 resource "keycloak_group" "common_group" {
@@ -173,7 +173,7 @@ resource "keycloak_group_memberships" "common_group_members" {
   realm_id = keycloak_realm.realm.id
   group_id = keycloak_group.common_group.id
 
-  members  = [
+  members = [
     keycloak_user.user_john.username,
     keycloak_user.user_jane.username
   ]
@@ -183,7 +183,7 @@ resource "keycloak_group_memberships" "foo_group_members" {
   realm_id = keycloak_realm.realm.id
   group_id = keycloak_group.foo_group.id
 
-  members  = [
+  members = [
     keycloak_user.user_john.username,
   ]
 }
@@ -192,24 +192,24 @@ resource "keycloak_group_memberships" "bar_group_members" {
   realm_id = keycloak_realm.realm.id
   group_id = keycloak_group.bar_group.id
 
-  members  = [
+  members = [
     keycloak_user.user_jane.username
   ]
 }
 
 resource "random_password" "cx_managed_pw" {
-  for_each   = var.provider_managed_projects
+  for_each = var.provider_managed_projects
 
-  length           = 16
-  special          = false
+  length  = 16
+  special = false
 }
 
 resource "keycloak_user" "cx_managed" {
-  for_each   = var.provider_managed_projects
+  for_each = var.provider_managed_projects
 
-  realm_id   = keycloak_realm.realm.id
-  username   = each.value.customer_name
-  enabled    = true
+  realm_id = keycloak_realm.realm.id
+  username = each.value.customer_name
+  enabled  = true
 
   email      = each.value.customer_email
   first_name = each.value.customer_first_name
@@ -222,9 +222,9 @@ resource "keycloak_user" "cx_managed" {
 }
 
 resource "keycloak_user" "user_john" {
-  realm_id   = keycloak_realm.realm.id
-  username   = "john-hc"
-  enabled    = true
+  realm_id = keycloak_realm.realm.id
+  username = "john-hc"
+  enabled  = true
 
   email      = "john-hc@domain.com"
   first_name = "John"
@@ -237,9 +237,9 @@ resource "keycloak_user" "user_john" {
 }
 
 resource "keycloak_user" "user_jane" {
-  realm_id   = keycloak_realm.realm.id
-  username   = "jane-hc"
-  enabled    = true
+  realm_id = keycloak_realm.realm.id
+  username = "jane-hc"
+  enabled  = true
 
   email      = "jane-hc@domain.com"
   first_name = "Jane"

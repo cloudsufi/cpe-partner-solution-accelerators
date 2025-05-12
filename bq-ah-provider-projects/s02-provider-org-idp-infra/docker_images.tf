@@ -13,17 +13,17 @@
 # limitations under the License.
 
 locals {
-  repo_host = "${google_artifact_registry_repository.my-repo.location}-docker.pkg.dev"
-  repo_tag = "${local.repo_host}/${google_artifact_registry_repository.my-repo.project}/${google_artifact_registry_repository.my-repo.name}"
-  keycloak_sha1 = sha1(join("", [for f in fileset("${path.module}/../src/keycloak", "*") : filesha1("${path.module}/../src/keycloak/${f}")]))
+  repo_host            = "${google_artifact_registry_repository.my-repo.location}-docker.pkg.dev"
+  repo_tag             = "${local.repo_host}/${google_artifact_registry_repository.my-repo.project}/${google_artifact_registry_repository.my-repo.name}"
+  keycloak_sha1        = sha1(join("", [for f in fileset("${path.module}/../src/keycloak", "*") : filesha1("${path.module}/../src/keycloak/${f}")]))
   keycloak_sha1_prefix = substr(local.keycloak_sha1, 0, 8)
 }
 
 resource "docker_image" "keycloak" {
   name = "${local.repo_tag}/keycloak:${local.keycloak_sha1_prefix}"
   build {
-    context = "../src/keycloak"
-    tag = [ "${local.repo_tag}/keycloak:${local.keycloak_sha1_prefix}" ]
+    context  = "../src/keycloak"
+    tag      = ["${local.repo_tag}/keycloak:${local.keycloak_sha1_prefix}"]
     no_cache = true
   }
   triggers = {

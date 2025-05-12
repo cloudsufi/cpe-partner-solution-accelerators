@@ -15,12 +15,12 @@
 output "bqds_exchange_data_exchange_id" {
   description = "BigQuery Data Exchange ID"
   value       = google_bigquery_analytics_hub_data_exchange.prov_exchange.data_exchange_id
-  sensitive = false
+  sensitive   = false
 }
 output "bqds_exchange_id" {
   description = "BigQuery Data Exchange ID"
   value       = google_bigquery_analytics_hub_data_exchange.prov_exchange.id
-  sensitive = false
+  sensitive   = false
 }
 #output "bqds_listings" {
 #  description = "BigQuery per-customer listings"

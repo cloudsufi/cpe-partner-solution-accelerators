@@ -13,28 +13,28 @@
 # limitations under the License.
 
 resource "google_iam_workforce_pool" "keycloak" {
-  workforce_pool_id   = "${var.wlwfif_pool_name}"
-  parent              = "organizations/${var.prov_org_id}"
-  location            = "global"
-  display_name        = "${var.wlwfif_pool_name}"
-  description         = "${var.wlwfif_pool_name}"
-  disabled            = false
-  session_duration    = "7200s"
+  workforce_pool_id = var.wlwfif_pool_name
+  parent            = "organizations/${var.prov_org_id}"
+  location          = "global"
+  display_name      = var.wlwfif_pool_name
+  description       = var.wlwfif_pool_name
+  disabled          = false
+  session_duration  = "7200s"
 }
 
 resource "google_iam_workforce_pool_provider" "keycloak" {
-  workforce_pool_id          = google_iam_workforce_pool.keycloak.workforce_pool_id
-  location            = "global"
-  provider_id = "${var.wlwfif_provider_name}"
-  display_name = "${var.wlwfif_provider_name}"
-  attribute_mapping                  = {
-    "google.subject" = "assertion.sub",
+  workforce_pool_id = google_iam_workforce_pool.keycloak.workforce_pool_id
+  location          = "global"
+  provider_id       = var.wlwfif_provider_name
+  display_name      = var.wlwfif_provider_name
+  attribute_mapping = {
+    "google.subject"      = "assertion.sub",
     "google.display_name" = "assertion.preferred_username",
-    "attribute.aud" = "assertion.aud"
+    "attribute.aud"       = "assertion.aud"
   }
   oidc {
-    issuer_uri        = "https://keycloak.${local.dns_name_trimmed}/realms/google"
-    client_id        = data.terraform_remote_state.keycloak.outputs.wfif_client_id
+    issuer_uri = "https://keycloak.${local.dns_name_trimmed}/realms/google"
+    client_id  = data.terraform_remote_state.keycloak.outputs.wfif_client_id
     client_secret {
       value {
         plain_text = data.terraform_remote_state.keycloak.outputs.wfif_client_secret

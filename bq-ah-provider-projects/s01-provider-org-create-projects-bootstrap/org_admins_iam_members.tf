@@ -13,9 +13,8 @@
 # limitations under the License.
 
 resource "google_organization_iam_member" "org_admin_user" {
-  for_each         = toset(var.org_admins_wide_iam_roles)
-
-  org_id           = var.prov_vpc_sc_policy_parent_org_id
-  role             = each.value
-  member           = "user:${var.prov_admin_user}"
+  for_each = toset(var.org_admins_wide_iam_roles)
+  org_id   = var.prov_vpc_sc_policy_parent_org_id
+  role     = each.value
+  member   = "user:${var.prov_admin_user}"
 }

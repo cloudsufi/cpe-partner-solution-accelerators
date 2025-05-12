@@ -29,8 +29,8 @@ resource "google_sql_database_instance" "keycloak" {
       value = "on"
     }
   }
-  deletion_protection  = "false"
-  root_password = random_password.keycloak_admin_pw.result
+  deletion_protection = "false"
+  root_password       = random_password.keycloak_admin_pw.result
 }
 
 resource "google_sql_database" "keycloak" {
@@ -49,7 +49,7 @@ resource "google_sql_user" "iam_service_account_user" {
 resource "google_sql_user" "postgres" {
   name     = "postgres"
   instance = google_sql_database_instance.keycloak.name
-  password = "${random_password.keycloak_admin_pw.result}"
+  password = random_password.keycloak_admin_pw.result
 }
 
 resource "google_sql_user" "iam_service_account_user_jumphost" {

@@ -40,8 +40,8 @@ resource "google_org_policy_policy" "override_wipool" {
     rules {
       values {
         allowed_values = [
-            "https://keycloak.${local.dns_domain_name_trimmed}/realms/google"
-          ]
+          "https://keycloak.${local.dns_domain_name_trimmed}/realms/google"
+        ]
       }
     }
   }

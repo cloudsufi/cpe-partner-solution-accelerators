@@ -15,46 +15,46 @@
 output "user_password" {
   description = "User password"
   value       = random_password.test_user_pw.result
-  sensitive = true
+  sensitive   = true
 }
 output "test_users" {
   description = "Test users"
   value = {
-    "john": keycloak_user.user_john.id,
-    "jane": keycloak_user.user_jane.id,
+    "john" : keycloak_user.user_john.id,
+    "jane" : keycloak_user.user_jane.id,
   }
 }
 output "managed_users" {
   description = "Managed users"
-  value = { for k, v in keycloak_user.cx_managed : k => v.id }
+  value       = { for k, v in keycloak_user.cx_managed : k => v.id }
 }
 output "wloadif_client_id" {
   description = "Workload Identity Federation Client ID"
   value       = keycloak_openid_client.google_wloadif_client.client_id
-  sensitive = false
+  sensitive   = false
 }
 output "wloadif_client_scope" {
   description = "Workload Identity Federation Client Scope"
   value       = keycloak_openid_client_scope.google_wloadif_client_scope.name
-  sensitive = false
+  sensitive   = false
 }
 output "wloadif_client_secret" {
   description = "Workload Identity Federation Client Secret"
   value       = keycloak_openid_client.google_wloadif_client.client_secret
-  sensitive = true
+  sensitive   = true
 }
 output "wfif_client_id" {
   description = "Workforce Identity Federation Client ID"
   value       = keycloak_openid_client.google_wfif_client.client_id
-  sensitive = false
+  sensitive   = false
 }
 output "wfif_client_scope" {
   description = "Workforce Identity Federation Client Scope"
   value       = keycloak_openid_client_scope.google_wfif_client_scope.name
-  sensitive = false
+  sensitive   = false
 }
 output "wfif_client_secret" {
   description = "Workforce Identity Federation Client Secret"
   value       = keycloak_openid_client.google_wfif_client.client_secret
-  sensitive = true
+  sensitive   = true
 }

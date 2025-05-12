@@ -37,9 +37,9 @@ resource "google_folder" "prov-cx" {
 }
 
 resource "google_folder_iam_member" "prov-root-folder-iam" {
-  for_each = toset( concat(var.prov_project_owners, [ "user:${var.gcloud_user}" ] ) )
+  for_each = toset(concat(var.prov_project_owners, ["user:${var.gcloud_user}"]))
 
-  folder  = google_folder.prov-root.id
-  role    = "roles/owner"
-  member  = each.value
+  folder = google_folder.prov-root.id
+  role   = "roles/owner"
+  member = each.value
 }

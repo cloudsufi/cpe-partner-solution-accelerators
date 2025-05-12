@@ -28,7 +28,7 @@ resource "google_dns_managed_zone" "pga" {
 
 resource "google_dns_record_set" "pga_cname" {
   for_each = var.pga_domains
-  
+
   name         = "*.${each.value}"
   managed_zone = google_dns_managed_zone.pga["${each.key}"].name
   type         = "CNAME"
@@ -38,7 +38,7 @@ resource "google_dns_record_set" "pga_cname" {
 
 resource "google_dns_record_set" "pga_a" {
   for_each = var.pga_domains
-  
+
   name         = "private.${each.value}"
   managed_zone = google_dns_managed_zone.pga["${each.key}"].name
   type         = "A"
@@ -48,8 +48,8 @@ resource "google_dns_record_set" "pga_a" {
 
 resource "google_dns_record_set" "pga_dom_a" {
   for_each = var.pga_domains
-  
-  name         = "${each.value}"
+
+  name         = each.value
   managed_zone = google_dns_managed_zone.pga["${each.key}"].name
   type         = "A"
   ttl          = 300
