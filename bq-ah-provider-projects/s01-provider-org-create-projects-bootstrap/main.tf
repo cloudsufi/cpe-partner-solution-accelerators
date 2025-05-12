@@ -57,3 +57,19 @@ module "publ-project-bqds" {
   disable_services_on_destroy = false
   deletion_policy             = "DELETE"
 }
+
+# Central provider logging project
+resource "google_project" "central_logging" {
+  name            = "central-logging"
+  project_id      = var.central_logging_project_id
+  folder_id       = google_folder.prov-root.id
+  billing_account = var.billing_account_id
+}
+
+module "project-services-logging" {
+  source                      = "terraform-google-modules/project-factory/google//modules/project_services"
+  version                     = "~> 18.0"
+  project_id                  = google_project.central_logging.project_id
+  activate_apis               = ["bigquery.googleapis.com", "logging.googleapis.com"]
+  disable_services_on_destroy = false
+}

@@ -36,3 +36,8 @@ output "folder_id_cx" {
   description = "Folder for provider managed (cx) projects"
   value       = google_folder.prov-cx.id
 }
+
+output "project_id_logging" {
+  description = "Central logging project ID"
+  value       = google_project.central_logging.project_id
+}
