@@ -43,7 +43,6 @@ resource "google_logging_folder_sink" "route_to_central" {
   # filter = var.log_filter 
 }
 
-
 # Grant sink writer identity access to the central dataset
 resource "google_bigquery_dataset_iam_member" "sink_writer" {
   dataset_id = google_bigquery_dataset.central_logs.dataset_id
@@ -51,7 +50,6 @@ resource "google_bigquery_dataset_iam_member" "sink_writer" {
   role       = var.bq_dataset_writer_role
   member     = google_logging_folder_sink.route_to_central.writer_identity
 }
-
 
 # Allow logging service account in each customer project to run BQ jobs
 resource "google_project_iam_member" "customer_job_user" {
