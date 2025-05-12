@@ -1,7 +1,6 @@
 # Get project data for all customer-managed projects
 data "google_project" "cx_projects" {
-  for_each = var.provider_managed_projects
-  #project_id = "bqprovpr-0819c0-cx-${each.key}"
+  for_each   = var.provider_managed_projects
   project_id = data.terraform_remote_state.consumer_projects.outputs.project_ids[each.key]
 }
 
@@ -48,7 +47,7 @@ resource "google_logging_folder_sink" "route_to_central" {
 # Grant sink writer identity access to the central dataset
 resource "google_bigquery_dataset_iam_member" "sink_writer" {
   dataset_id = google_bigquery_dataset.central_logs.dataset_id
-  project    = google_bigquery_dataset.central_logs.project
+  project    = google_project.central_logging.project_id
   role       = var.bq_dataset_writer_role
   member     = google_logging_folder_sink.route_to_central.writer_identity
 }
@@ -56,8 +55,7 @@ resource "google_bigquery_dataset_iam_member" "sink_writer" {
 
 # Allow logging service account in each customer project to run BQ jobs
 resource "google_project_iam_member" "customer_job_user" {
-  for_each = var.provider_managed_projects
-  project  = google_project.central_logging.project_id
-  role     = var.bq_job_user_role
-  member   = "serviceAccount:service-${data.google_project.cx_projects[each.key].number}@gcp-sa-logging.iam.gserviceaccount.com"
+  project = google_project.central_logging.project_id
+  role    = var.bq_job_user_role
+  member  = google_logging_folder_sink.route_to_central.writer_identity
 }
