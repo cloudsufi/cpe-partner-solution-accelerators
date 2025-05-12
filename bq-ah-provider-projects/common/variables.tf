@@ -103,6 +103,7 @@ variable "projects_activate_apis_cx" {
     "cloudresourcemanager.googleapis.com",
     "bigquery.googleapis.com",
     "analyticshub.googleapis.com",
+    "logging.googleapis.com"
   ]
 }
 variable "org_admins_wide_iam_roles" {
